@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<h:outputStylesheet name="common-style.css" library="css" />
+	<h:outputStylesheet name="reset.css" library="css" />
+	<h:outputStylesheet name="text.css" library="css" />
+	<h:outputStylesheet name="960.css" library="css" />
+	<h:outputStylesheet name="logon.css" library="css" />
+	<title><ui:insert name="title">Citiesse Exec</ui:insert></title>
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.validationFailed || !args.loggedIn) {
+				jQuery('#dialog').effect("shake", {
+					times : 3
+				}, 100);
+			} else {
+				dlg.hide();
+				jQuery('#loginLink').fadeOut();
+			}
+		}
+	</script>
+</h:head>
+
+<h:body>
+	<div class="container_16">
+		<div class="grid_5 prefix_6">
+			<h:panelGrid columns="1" styleClass="grid">
+				<h:outputText value="Usuário" styleClass="rotulo" />
+				<p:inputText value="#{logonBean.usuario}" size="32" required="true"
+					requiredMessage="Usuário: Campo obrigatório" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="1" styleClass="grid">
+				<h:outputText value="Senha" styleClass="rotulo" />
+				<p:password value="#{logonBean.senha}" feedback="false" size="32"
+					required="true" requiredMessage="Senha: Campo obrigatório" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="5"
+				styleClass="gridCenter">
+				<p:commandButton value="Entrar"
+					actionListener="#{logonBean.login()}" ajax="false" />
+				<p:commandLink value="Esqueceu a senha?" styleClass="info" />
+			</h:panelGrid>
+		</div>
+	</div>
+</h:body>
+</html>

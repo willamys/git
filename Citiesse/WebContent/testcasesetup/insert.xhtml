@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<c:if test="#{userBean.autenticate}">
+            #{redirectBean.redirect()}
+        </c:if>
+<h:body>
+	<ui:composition template="./../template/commonLayout.xhtml">
+		<ui:define name="content">
+			<h:form id="form" prependId="false">
+				<p:growl id="msgs" sticky="true" />
+				
+				<p:panel header="New Test Case Setup">
+					<h:panelGrid columns="1" styleClass="grid" cellpadding="3"
+						cellspacing="3">
+						<h:outputText value="Id Test Case Setup (*)" styleClass="label" />
+						<p:selectOneMenu id="Test_Case_Id"
+							value="#{testCaseSetupBean.testCaseSetup.id}">
+							<f:selectItems var="item"
+								value="#{testCaseBean.testCases}"
+								itemValue="#{item.id}" itemLabel="#{item.testcasename}" />
+						</p:selectOneMenu>
+						<p:inputText value="#{testCaseSetupBean.testCaseSetup.id}"
+							required="true" requiredMessage="Test Case Id: Required field"
+							size="2" />
+
+						<h:outputText value="Description Setup (*)" styleClass="label" />
+						<p:editor value="#{testCaseSetupBean.testCaseSetup.descriptionsetup}"
+							size="59" required="true"
+							requiredMessage="Description: Required field" />
+
+						<h:outputText value="Note(*)" styleClass="label" />
+						<p:editor value="#{testCaseSetupBean.testCaseSetup.note}" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" styleClass="grid" cellpadding="5"
+						cellspacing="5">
+						<p:commandButton value="Insert" action="#{testCaseSetupBean.save}"
+							oncomplete="manager" ajax="false" />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:growl id="messages" />
+			<p:menubar>
+				<p:menuitem value="Home" action="/index" ajax="false" />
+				<p:submenu label="Test Case" icon="ui-icon-document">
+					<p:menuitem value="New" action="/testcase/insert" ajax="false" />
+					<p:menuitem value="Manager" action="/testcase/manager" ajax="false" />
+				</p:submenu>
+				<p:submenu label="Test Case Setup" icon="ui-icon-document">
+					<p:menuitem value="Manager" action="/testcasesetup/manager"
+						ajax="false" />
+				</p:submenu>
+				<p:submenu label="Execution GMS" icon="ui-icon-pencil">
+					<p:menuitem value="New Execution GMS" action="/execution/manager" ajax="false" />
+				</p:submenu>
+				<p:submenu label="Report" icon="ui-icon-search">
+					<p:menuitem value="Search for User" action="/report/manageruser" ajax="false" />
+					<p:menuitem value="Search for Date" action="/report/managerdate" ajax="false" />
+				</p:submenu>
+				<p:menuitem value="Quit" icon="ui-icon-close" onclick="confirmation.show()" />
+			</p:menubar>
+		</h:form>
+		<h:form prependId="false">
+			<p:growl id="messages" />
+			<p:confirmDialog id="confirmDialog" message="Are you sure to quit?"
+				header="Quit" severity="alert" widgetVar="confirmation">
+				<p:commandButton id="confirm" value="Yes Sure" update="messages"
+					oncomplete="confirmation.hide()" action="/index.jsf" ajax="false" />
+				<p:commandButton id="decline" value="Not Yet"
+					onclick="confirmation.hide()" type="button" ajax="false" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:composition>
+</h:body>
+
+</html>

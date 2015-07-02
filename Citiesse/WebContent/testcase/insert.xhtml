@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<c:if test="#{userBean.autenticate}">
+            #{redirectBean.redirect()}
+        </c:if>
+<h:body>
+	<ui:composition template="./../template/commonLayout.xhtml">
+		<ui:define name="content">
+			<h:form id="form" prependId="false">
+				<p:growl id="msgs" sticky="true" />
+
+				<p:panel header="New Test Case">
+					<h:panelGrid columns="1" styleClass="grid" cellpadding="3"
+						cellspacing="3">
+
+						<h:outputText value="Id Test Case (*)" styleClass="label" />
+						<p:inputText value="#{testCaseBean.testcase.id}" required="true"
+							requiredMessage="Test Case Id: Required field" size="2" />
+
+						<h:outputText value="Test Case Name (*)" styleClass="label" />
+						<p:inputText value="#{testCaseBean.testcase.testcasename}"
+							size="59" required="true"
+							requiredMessage="Test Case Name: Required field" />
+
+						<h:outputText value="Description Steps (*)" styleClass="label" />
+						<p:editor value="#{testCaseBean.testcase.descriptionsteps}"
+							required="true" requiredMessage="Description: Required field" />
+
+						<h:outputText value="Order Workflow (*)" styleClass="label" />
+						<p:inputText value="#{testCaseBean.testcase.orderworkflow}"
+							size="3" required="true" requiredMessage="Order: Required field" />
+					</h:panelGrid>
+					<h:panelGrid columns="1" styleClass="grid" cellpadding="5"
+						cellspacing="5">
+						<p:commandButton value="Insert" action="#{testCaseBean.save}"
+							oncomplete="manager" ajax="false" />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

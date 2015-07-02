@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<c:if test="#{userBean.autenticate}">
+            #{redirectBean.redirect()}
+        </c:if>
+<body>
+	<ui:composition template="./../template/commonLayout.xhtml">
+		<ui:define name="content">
+			<p:panel header="Teste Cases Manager">  
+				<h:form id="form" prependId="false">
+					<p:growl id="msgs" sticky="true" />
+					<p:contextMenu for="testcase">
+						<p:menuitem value="Propeties" icon="ui-icon ui-icon-search"
+							update=":frmInfo" onclick="dlgInfo.show()" />
+						<p:menuitem value="Edit" icon="ui-icon ui-icon-person"
+							update=":frmEdit" onclick="dlgEdit.show()" />
+						<p:menuitem value="Remove" update="testcase"
+							icon="ui-icon ui-icon-trash"
+							actionListener="#{testCaseBean.delete()}" />
+					</p:contextMenu>
+					<p:dataTable id="testcase" value="#{testCaseBean.testCases}"
+						var="testcase" selectionMode="single"
+						selection="#{testCaseBean.testcase}" paginator="true" rows="10"
+						rowKey="#{testcase.id}">
+						<f:facet name="header">
+							<h:outputText value="Test Cases Manager" />
+						</f:facet>
+						<f:facet name="footer">
+							<h:outputText
+								value="Total de #{testCaseBean.testCases.size()} registro(s)." />
+						</f:facet>
+
+						<p:column headerText="Order Workflow"
+							filterBy="#{testcase.orderworkflow}">
+							<h:outputText value="#{testcase.orderworkflow}" />
+						</p:column>
+						<p:column headerText="Id" filterBy="#{testcase.id}">
+							<h:outputText value="#{testcase.id}" />
+						</p:column>
+
+						<p:column headerText="Test Case Name"
+							filterBy="#{testcase.testcasename}">
+							<h:outputText value="#{testcase.testcasename}" />
+						</p:column>
+
+						<p:column headerText="Description Steps"
+							filterBy="#{testcase.descriptionsteps}">
+							<h:outputText value="#{testcase.descriptionsteps}" escape="false"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+			<p:dialog widgetVar="dlgInfo" modal="true" header="Infos">
+				<h:form id="frmInfo" prependId="false">
+					<h:panelGrid columns="2" styleClass="grid" cellpadding="5"
+						cellspacing="5">
+						<h:outputText value="Id" styleClass="label" />
+						<h:outputText value="#{testCaseBean.testcase.id}" />
+
+						<h:outputText value="Test Case Name (*)" styleClass="label" />
+						<h:outputText value="#{testCaseBean.testcase.testcasename}" />
+
+						<h:outputText value="Description Steps" styleClass="label" />
+						<h:outputText value="#{testCaseBean.testcase.descriptionsteps}"  />
+
+						<h:outputText value="Order Workflow" styleClass="label" />
+						<h:outputText value="#{testCaseBean.testcase.orderworkflow}" />
+
+						<h:outputText value="Order Workflow (*)" styleClass="label" />
+						<h:outputText value="#{testCaseBean.testcase.orderworkflow}" />
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog widgetVar="dlgEdit" modal="true" header="Update Test Case">
+				<h:form id="frmEdit" prependId="false">
+					<h:panelGrid columns="2" styleClass="grid" cellpadding="5"
+						cellspacing="5">
+						<h:outputText value="Id" styleClass="label" />
+						<p:column>
+							<h:outputText value="#{testCaseBean.testcase.id}"
+								styleClass="label" />
+							<p:inputText type="hidden" value="#{testCaseBean.testcase.id}"
+								size="42" />
+						</p:column>
+						<h:outputText value="Test case name (*)" styleClass="label" />
+						<p:inputText value="#{testCaseBean.testcase.testcasename}" />
+
+						<h:outputText value="Description Steps (*)" styleClass="label" />
+						<p:editor value="#{testCaseBean.testcase.descriptionsteps}" />
+
+						<h:outputText value="Order Workflow (*)" styleClass="label" />
+						<p:inputText value="#{testCaseBean.testcase.orderworkflow}"
+							size="3" required="true" requiredMessage="Order: Required field" />
+
+						<h:panelGrid columns="1" styleClass="gridCenter">
+							<p:commandButton value="Save"
+								actionListener="#{testCaseBean.update}" ajax="false" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

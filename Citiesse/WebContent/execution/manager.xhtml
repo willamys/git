@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<c:if test="#{userBean.autenticate}">
+            #{redirectBean.redirect()}
+        </c:if>
+<body>
+	<ui:composition template="./../template/commonLayout.xhtml">
+		<ui:define name="content">
+			<p:panel header="Execution GMS" style="height:1130px;">
+				<h:form>
+					<p:toolbar>
+						<p:toolbarGroup align="center">
+							<p:commandButton onclick="cdlgStart.show()"
+								value="Getting Started"
+								title="Push this button to Getting started to GMS.."
+								disabled="#{executionTestBean.enableGettingStart}" />
+							<p:commandButton onclick="dlgInfo.show()" value="Start"
+								icon="ui-icon ui-icon-play"
+								title="Push this button to start the execution GMS."
+								actionListener="#{executionTestBean.executeFirst}"
+								disabled="#{executionTestBean.enableStart}" update=":frmInfo" />
+							<p:commandButton onclick="dlgInfo.show()"
+								value="Previous Test GMS" icon="ui-icon ui-icon-seek-prev"
+								title="Push this button to go previous test."
+								actionListener="#{executionTestBean.executePrevious}"
+								disabled="#{executionTestBean.enablePrev}" update=":frmInfo" />
+							<p:commandButton onclick="dlgInfo.show()" value="Next Test GMS"
+								icon="ui-icon ui-icon-seek-next"
+								title="Push this button to go next test."
+								actionListener="#{executionTestBean.executeNext}"
+								disabled="#{executionTestBean.enableNext}" update=":frmInfo" />
+							<p:commandButton onclick="cdlgFinish.show()" value="Finished GMS"
+								icon="ui-icon ui-icon-stop"
+								title="When the execution is finished, push this button."
+								disabled="#{executionTestBean.enableFinish}" />
+							<p:commandButton value="Generate SpreadSheet"
+								icon="ui-icon ui-icon-document"
+								title="When the execution is finished, push this button."
+								action="#{generateSpreadSheetBean.vai}" ajax="false"
+								disabled="false">
+								<f:param name="id_execution"
+									value="#{executionTestBean.lastidinserted}"></f:param>
+							</p:commandButton>
+						</p:toolbarGroup>
+					</p:toolbar>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.firstline}" var="tmp">
+							<li><p:commandLink styleClass="#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.secondline}" var="tmp">
+							<li><p:commandLink styleClass="#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.thirdline}" var="tmp">
+							<li><p:commandLink styleClass="#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.fourline}" var="tmp">
+							<li><p:commandLink styleClass="#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.fiveline}" var="tmp">
+							<li><p:commandLink styleClass="#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.sixline}" var="tmp">
+							<li><p:commandLink styleClass="#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.sevenline}" var="tmp">
+							<li><p:commandLink styleClass="seven_#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.eightline}" var="tmp">
+							<li><p:commandLink styleClass="eight_#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.nineline}" var="tmp">
+							<li><p:commandLink styleClass="nine_#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+					<ul id="page-bar">
+						<ui:repeat value="#{flowImages.tenline}" var="tmp">
+							<li><p:commandLink styleClass="ten_#{tmp}" /></li>
+						</ui:repeat>
+					</ul>
+				</h:form>
+			</p:panel>
+			<p:dialog widgetVar="dlgInfo" header="Infos" closable="true"
+				modal="true">
+				<h:form id="frmInfo" prependId="false" >
+					<p:panel header="Test #{executionTestBean.t.id}">
+						<h:panelGrid columns="2" style="border:false;">
+							<p:commandLink styleClass="_#{executionTestBean.t.id}" />
+							<p:editor width="800" height="300" control="" value="#{executionTestBean.t.descriptionsteps}">
+							</p:editor>
+							<h:outputText value="Select the test result:" styleClass="label" />
+							<p:selectOneMenu value="#{resultBean.resultB.resulttest}">
+								<f:selectItem itemValue="yes" itemLabel="yes" />
+								<f:selectItem	
+									itemValue="conditional pass - provide explanation in adjacent cell"
+									itemLabel="conditional pass - provide explanation in adjacent cell" />
+								<f:selectItem itemValue="no" itemLabel="no" />
+								<f:selectItem itemValue="not supported"
+									itemLabel="not supported" />
+							</p:selectOneMenu>
+							<h:outputText value="Comment:" styleClass="label" />
+							<p:inputTextarea value="#{resultBean.resultB.comment}" />
+							<p:commandButton actionListener="#{resultBean.save()}"
+								value="save" ajax="false">
+								<f:param name="idtest" value="#{executionTestBean.idTest}" />
+								<f:param name="idExec"
+									value="#{executionTestBean.lastidinserted}" />
+							</p:commandButton>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</p:dialog>
+
+			<h:form prependId="false">
+				<p:growl id="message" />
+				<p:confirmDialog id="confirmDialogGMSStart"
+					message="Before to continue is very important that you pay attention in the follow steps:
+						1. To start the Execution GMS push the start button;
+						2. To Push start button and a dialog with the test case will be displayed ;
+						3. Follow the workflow by the previous and next button;
+						4. Pay attention in name and number of the test; 
+						5. Put the result in the correspondents fields;
+						6. Save;
+						7. After execute all the tests, the finish button will be displayed. Push it;
+						8. After finished, the generate spreadsheet button will be displayed.
+						9. To push to generate the spreadsheet.
+					 Are you sure that want to start a New GMS Execution?"
+					header="Getting Started" severity="alert" widgetVar="cdlgStart"
+					width="450">
+					<p:commandButton id="confirm1" value="Yes Sure"
+						oncomplete="cdlg.hide()" action="#{executionTestBean.save()}"
+						ajax="false">
+						<f:param name="starttime"
+							value="#{executionTestBean.executionTest.starttime}" />
+						<f:param name="startdatatime"
+							value="#{executionTestBean.executionTest.startdatatime}" />
+					</p:commandButton>
+					<p:commandButton id="decline1" value="Not Yet"
+						oncomplete="cdlg.hide()" action="/execution/manager" ajax="false" />
+				</p:confirmDialog>
+			</h:form>
+
+			<h:form prependId="false">
+				<p:growl id="messageFinish" />
+				<p:confirmDialog id="confirmDialogGMSFinish"
+					message="The execution was finished. Before the confirmation, all the results will be saved in the Database.
+					 Push the button 'Generate SpreadSheet' to get the all results for this execution.
+					  Are you sure that want to finish the GMS Execution?"
+					header="Start GMS" severity="alert" widgetVar="cdlgFinish"
+					width="450">
+					<p:commandButton id="confirm2" value="Yes Sure"
+						update="messageFinish" oncomplete="cdlg.hide()"
+						action="#{executionTestBean.update()}" ajax="false">
+						<f:param name="id" value="#{executionBean.lastidinserted}" />
+						<f:param name="finishtime"
+							value="#{executionTestBean.executionTest.finishtime}" />
+						<f:param name="finishdatatime"
+							value="#{executionTestBean.executionTest.finishdatatime}" />
+					</p:commandButton>
+					<p:commandButton id="decline2" value="Not Yet"
+						oncomplete="cdlg.hide()" action="/execution/manager" ajax="false" />
+				</p:confirmDialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

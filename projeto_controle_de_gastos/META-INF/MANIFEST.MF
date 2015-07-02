@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Controle_de_Gastos_1
+Bundle-SymbolicName: Controle_de_Gastos_1
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: Controle de Gastos 1.jar,
+ Android Developer/sdk/platforms/android-19/android.jar
+Export-Package: br.com.example.controle.gastos,
+ src.controle.gastos,
+ src.controle.gastos.tabs
